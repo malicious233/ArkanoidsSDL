@@ -59,14 +59,16 @@ bool Projectile::step(float dx, float dy)
 {
 
 	Circle circle = { x + dx, y + dx , 4 };
-	for (auto &b : bricks)
+	for (Brick* b : bricks)
 	{
-		if (!b.alive) //We arent actually removing the bricks now, just making them be ignored by collision and render invisible
+		if (b == nullptr)
 			continue;
-		AABB box = AABB::make_from_position_size(b.x, b.y, b.w, b.h);
+		if (b->alive == false) //this bit could be more elegant 
+			continue;
+		AABB box = AABB::make_from_position_size(b->x, b->y, b->w, b->h);
 		if (aabb_circle_intersect(box, circle))
 		{
-			b.alive = false;
+			b->alive = false; //I should do that the brick is dynamically deallocated instead of just made invisible and ignored by collision
 			return false;
 		}
 			

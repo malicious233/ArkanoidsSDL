@@ -7,6 +7,24 @@
 #include "collision.h"
 #include "leveleditor.h"
 
+const char* LEVEL =
+"..............."
+"..............."
+"..............."
+".###..........."
+"..............."
+"....###........"
+"..............."
+".........###..."
+"........##....."
+".......##......"
+"......##......."
+".....##........"
+"..............."
+"###############"
+"..............."
+;
+
 int main()
 {
 	LevelEditor level;
@@ -19,10 +37,13 @@ int main()
 	bool running = true;
 	Uint64 previous_ticks = SDL_GetPerformanceCounter();
 
+	/*
 	for(int i=0; i<BRICK_MAX; ++i)
 	{
 		bricks[i].y = 120 * i;
 	}
+	*/
+	LevelEditor::GenerateLevel(LEVEL, MAP_ROWS, MAP_COLS);
  
 	while (running)
 	{
@@ -31,6 +52,8 @@ int main()
 		previous_ticks = ticks; 
 		delta_time = (float)delta_ticks / SDL_GetPerformanceFrequency(); 
  
+		
+
 		SDL_Event event;
 		while(SDL_PollEvent(&event)) 
 		{
@@ -69,14 +92,15 @@ int main()
 
 		for(int i=0; i<PROJECTILE_MAX; ++i)
 		{
-			  
 			projectiles[i].update();
 			projectiles[i].draw();
 		}
 
-		for(int i=0; i<BRICK_MAX; ++i)
+		for(int i=0; i<NUM_BLOCKS; ++i)
 		{
-			bricks[i].draw();
+			if (bricks[i] != nullptr)
+				bricks[i]->draw();
+			
 		}
 
 		SDL_RenderPresent(render);
