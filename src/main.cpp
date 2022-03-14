@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <SDL/SDL.h>
 #include <stdlib.h>
+#include <string>
+#include <iostream>
 #include "engine.h"
 #include "player.h"
 #include "game.h"
 #include "collision.h"
 #include "leveleditor.h"
+
 
 const char* LEVEL =
 "..............."
@@ -28,7 +31,6 @@ const char* LEVEL =
 int main()
 {
 	LevelEditor level;
-	level.SaveLevel();
 
 	SDL_Init(SDL_INIT_EVERYTHING); 
 	window = SDL_CreateWindow("Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800,600,0); 
@@ -43,7 +45,11 @@ int main()
 		bricks[i].y = 120 * i;
 	}
 	*/
-	LevelEditor::GenerateLevel(LEVEL, MAP_ROWS, MAP_COLS);
+
+	//level.SaveLevel();
+	std::string lvlStr = level.LoadLevelString("levels/levelEditor.txt");
+	std::cout << lvlStr << std::endl;
+	LevelEditor::GenerateLevel(lvlStr.c_str(), MAP_ROWS, MAP_COLS);
  
 	while (running)
 	{

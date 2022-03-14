@@ -1,5 +1,8 @@
 #include <iostream>
+#include <istream>
 #include <fstream>
+#include <string>
+#include <sstream>
 
 #include "leveleditor.h"
 #include "brick.h"
@@ -41,4 +44,15 @@ void LevelEditor::SaveLevel()
 
 	myfile << level;
 	myfile.close();
+}
+
+std::string LevelEditor::LoadLevelString(const std::string str)
+{
+	std::ifstream load(str, std::ifstream::in); //Open file for reading
+	
+	std::string newStr;
+	std::getline(load, newStr);
+	return newStr;
+	
+
 }
