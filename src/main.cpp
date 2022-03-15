@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
 #include <stdlib.h>
 #include <string>
 #include <iostream>
@@ -33,9 +34,23 @@ int main()
 	LevelEditor level;
 
 	SDL_Init(SDL_INIT_EVERYTHING); 
+	TTF_Init();
+
 	window = SDL_CreateWindow("Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800,600,0); 
 	render = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
  
+	//Text
+	TTF_Font* font = TTF_OpenFont("res/roboto.ttf", 14);
+	SDL_Surface* text_surf = TTF_RenderText_Solid(font, "but did you know, in 15 to 20 years all helium on earth will have run out ? ", { 255,0,255,255 });
+	SDL_Texture* text_tex = SDL_CreateTextureFromSurface(render, text_surf);
+
+	/*
+	//Call this when youre done with a texture
+	SDL_FreeSurface(text_surf);
+	SDL_DestroyTexture(text_tex);
+	*/
+	
+
 	bool running = true;
 	Uint64 previous_ticks = SDL_GetPerformanceCounter();
 
@@ -56,6 +71,8 @@ int main()
  
 	while (running)
 	{
+		frameNumber++;
+
 		Uint64 ticks = SDL_GetPerformanceCounter();
 		Uint64 delta_ticks = ticks - previous_ticks;
 		previous_ticks = ticks; 
@@ -72,13 +89,19 @@ int main()
 				running = false;
 				break;
  
+				
+
 			case SDL_KEYDOWN:
 			{
+				if (event.key.repeat)
+					break;
+
 				int scancode = event.key.keysym.scancode;
 				if (scancode == SDL_SCANCODE_ESCAPE)
 					running = false;
 
-				keys[scancode] = true;
+				keys[scancode].state = true;
+				keys[scancode].changeFrame = frameNumber;
  
 				break;
 			}
@@ -86,7 +109,8 @@ int main()
 			case SDL_KEYUP:
 			{
 				int scancode = event.key.keysym.scancode;
-				keys[scancode] = false;
+				keys[scancode].state = false;
+				keys[scancode].changeFrame = frameNumber;
  
 				break;
 			}
@@ -111,6 +135,10 @@ int main()
 				bricks[i]->draw();
 			
 		}
+
+		//Draw text
+		SDL_Rect text_dst = { 30, 30, text_surf->w, text_surf->h };
+		SDL_RenderCopy(render, text_tex, NULL, &text_dst);
 
 		SDL_RenderPresent(render);
  

@@ -5,18 +5,15 @@
 void Player::update()
 {
 	// move
-	if (keys[SDL_SCANCODE_D])
-		x += 200 * delta_time;
-	if (keys[SDL_SCANCODE_A])
-		x -= 200 * delta_time;
-	if (keys[SDL_SCANCODE_W])
-		y -= 200 * delta_time;
-	if (keys[SDL_SCANCODE_S])
-		y += 200 * delta_time;
+	if (GetKey(SDL_SCANCODE_W))
+		y -= 300 * delta_time;
+	if (GetKey(SDL_SCANCODE_S))
+		y += 300 * delta_time;
+
 
 	// shoot! pew pew
 	shoot_timer -= delta_time;
-	if (keys[SDL_SCANCODE_SPACE] && shoot_timer < 0.f)
+	if (GetKeyPressed(SDL_SCANCODE_SPACE))
 	{
 		Projectile& proj = projectiles[next_projectile_index];
 		proj.alive = true;
