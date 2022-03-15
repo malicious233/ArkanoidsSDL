@@ -77,7 +77,7 @@ bool Projectile::step(float dx, float dy)
 	//Player collisions
 	if (dx < 0.f)
 	{
-		AABB box = AABB::make_from_position_size(player.x, player.y, 32, 32);
+		AABB box = AABB::make_from_position_size(player.x, player.y, 32, 96); //ugly magic numbers
 		if (aabb_circle_intersect(box, circle))
 		{
 			return false;
