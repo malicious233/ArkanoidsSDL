@@ -6,9 +6,9 @@ void Player::update()
 {
 	// move
 	if (GetKey(SDL_SCANCODE_W))
-		y -= 300 * delta_time;
+		y -= 400 * delta_time;
 	if (GetKey(SDL_SCANCODE_S))
-		y += 300 * delta_time;
+		y += 400 * delta_time;
 
 
 	// shoot! pew pew
