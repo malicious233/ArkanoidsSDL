@@ -8,6 +8,7 @@
 #include "brick.h"
 #include "game.h"
 
+//Generates level with given pointer of the first pointer of a char array
 void LevelEditor::GenerateLevel(const char* lvl, int rows, int cols)
 {
 	const char* ptr = lvl;
@@ -20,15 +21,22 @@ void LevelEditor::GenerateLevel(const char* lvl, int rows, int cols)
 
 			Brick* brick = new Brick();
 			printf("brick");
+			float wdth = 800 / cols;
+			float hgth = 600 / rows;
+			
+
 			brick->alive = true;
-			brick->x = x * 32;
-			brick->y = y * 32;
+			brick->x = x * wdth;
+			brick->y = y * hgth;
+			brick->w = wdth;
+			brick->h = hgth;
 
 			bricks[y * cols + x] = brick;
 		}
 	}
 }
 
+//Saves an empty file
 void LevelEditor::SaveLevel()
 {
 	std::string level;
@@ -46,13 +54,23 @@ void LevelEditor::SaveLevel()
 	myfile.close();
 }
 
+//Returns the entire string from a given file directory
 std::string LevelEditor::LoadLevelString(const std::string str)
 {
 	std::ifstream load(str, std::ifstream::in); //Open file for reading
 	
 	std::string newStr;
-	std::getline(load, newStr);
+	std::string tmpStr;
+
+	for (int i = 0; i < MAP_COLS; i++)
+	{
+		std::getline(load, tmpStr);
+		newStr.append(tmpStr);
+	}
+
+	
+	
 	return newStr;
 	
-
+	
 }
