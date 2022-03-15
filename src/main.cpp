@@ -47,9 +47,12 @@ int main()
 	*/
 
 	//level.SaveLevel();
-	std::string lvlStr = level.LoadLevelString("levels/levelEditor.txt");
-	std::cout << lvlStr << std::endl;
-	LevelEditor::GenerateLevel(lvlStr.c_str(), MAP_ROWS, MAP_COLS);
+	//std::string lvlStr = level.LoadLevelString("levels/levelEditor.txt");
+	//std::cout << lvlStr << std::endl;
+	Level newLevel;
+	newLevel = level.LoadLevel("levels/leveleditor.txt");
+
+	LevelEditor::GenerateLevel(newLevel.levelString.c_str(), newLevel.columns, newLevel.rows);
  
 	while (running)
 	{

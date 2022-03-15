@@ -36,6 +36,8 @@ void LevelEditor::GenerateLevel(const char* lvl, int rows, int cols)
 	}
 }
 
+
+
 //Saves an empty file
 void LevelEditor::SaveLevel()
 {
@@ -52,6 +54,36 @@ void LevelEditor::SaveLevel()
 
 	myfile << level;
 	myfile.close();
+}
+
+Level LevelEditor::LoadLevel(std::string str)
+{
+	Level newLevel;
+
+	std::ifstream load(str, std::ifstream::in); //Open file for reading
+
+	std::string newStr;
+	std::string tmpStr;
+
+	//Parse first 2 lines to define width and height of level
+	std::getline(load, tmpStr);
+	newLevel.columns = std::stoi(tmpStr);
+	std::cout << newLevel.columns << std::endl;
+
+	std::getline(load, tmpStr);
+	newLevel.rows = std::stoi(tmpStr);
+	std::cout << newLevel.rows << std::endl;
+
+	//Loop through all the lines after the width and height definition and make it into a string
+	for (int i = 0; i < newLevel.columns; i++)
+	{
+		std::getline(load, tmpStr);
+		newStr.append(tmpStr);
+	}
+	newLevel.levelString = newStr;
+
+	return newLevel;
+
 }
 
 //Returns the entire string from a given file directory
