@@ -4,6 +4,8 @@ struct Brick
 {
 	bool alive = true;
 
+	int health = 3;
+
 	float x = 600;
 	float y = 200;
 

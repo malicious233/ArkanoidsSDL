@@ -31,15 +31,15 @@ void Projectile::update()
 		}
 	}
 	*/
-
-	if (!step(velX * delta_time, 0.f))
-	{
-		velX = -velX + sign(-velX) * 5;
-	}
 	if (!step(0.f, velY * delta_time))
 	{
 		velY = -velY + sign(-velY) * 5;
 	}
+	if (!step(velX * delta_time, 0.f))
+	{
+		velX = -velX + sign(-velX) * 5;
+	}
+	
 	//x += velX * delta_time;
 	//y += velY * delta_time;
 }
@@ -58,7 +58,7 @@ void Projectile::draw()
 bool Projectile::step(float dx, float dy)
 {
 
-	Circle circle = { x + dx, y + dx , 4 };
+	Circle circle = { x + dx, y + dy , 4 };
 	for (Brick* b : bricks)
 	{
 		if (b == nullptr)
@@ -68,7 +68,13 @@ bool Projectile::step(float dx, float dy)
 		AABB box = AABB::make_from_position_size(b->x, b->y, b->w, b->h);
 		if (aabb_circle_intersect(box, circle))
 		{
-			b->alive = false; //I should do that the brick is dynamically deallocated instead of just made invisible and ignored by collision
+			//b->alive = false; //I should do that the brick is dynamically deallocated instead of just made invisible and ignored by collision
+			b->health--;
+			if (b->health <= 0)
+			{
+				b->alive = false;
+			}
+			
 			return false;
 		}
 			
