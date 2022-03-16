@@ -14,13 +14,13 @@ void Brick::draw()
 	case 0:
 		break;
 	case 1:
-		col = { 200, 200, 50, 255 };
+		col = { 238, 0, 0, 0 };
 		break;
 	case 2: 
-		col = { 250, 200, 50, 255 };
+		col = { 255, 135, 0, 0 };
 		break;
 	case 3:
-		col = { 320, 159, 50, 200 };
+		col = { 25, 255, 50, 50 };
 		break;
 	}
 	SDL_SetRenderDrawColor(render, col.r, col.g, col.b, col.a);

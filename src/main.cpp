@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
+#include <SDL/SDL_image.h>
 #include <stdlib.h>
 #include <string>
 #include <iostream>
@@ -9,6 +10,7 @@
 #include "game.h"
 #include "collision.h"
 #include "leveleditor.h"
+#include "spritesheet.h"
 
 
 const char* LEVEL =
@@ -35,6 +37,7 @@ int main()
 
 	SDL_Init(SDL_INIT_EVERYTHING); 
 	TTF_Init();
+	IMG_Init(IMG_INIT_PNG);
 
 	window = SDL_CreateWindow("Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800,600,0); 
 	render = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -43,6 +46,21 @@ int main()
 	TTF_Font* font = TTF_OpenFont("res/roboto.ttf", 14);
 	SDL_Surface* text_surf = TTF_RenderText_Solid(font, "but did you know, in 15 to 20 years all helium on earth will have run out ? ", { 255,0,255,255 });
 	SDL_Texture* text_tex = SDL_CreateTextureFromSurface(render, text_surf);
+
+	//A sprite
+	/*
+	int sprite_w, sprite_h;
+	SDL_Texture* sprite = IMG_LoadTexture(render, "res/sprite.png");
+	SDL_QueryTexture(sprite, NULL, NULL, &sprite_w, &sprite_h);
+	*/
+
+	player_sprite.load("res/paddle.png");
+
+	Sprite_Sheet cowGif;
+	cowGif.load("res/stupididle.png", 32, 32);
+	
+	float animTime = 0;
+	
 
 	/*
 	//Call this when youre done with a texture
@@ -139,6 +157,13 @@ int main()
 		//Draw text
 		SDL_Rect text_dst = { 30, 30, text_surf->w, text_surf->h };
 		SDL_RenderCopy(render, text_tex, NULL, &text_dst);
+
+		//SDL_Rect sprite_dst = { projectiles[0].x, projectiles[0].y, sprite_w, sprite_h };
+		//SDL_RenderCopy(render, sprite, NULL, &sprite_dst);
+
+		animTime += delta_time;
+
+		cowGif.draw((int)(animTime * 5 ) % 4, 100, 100);
 
 		SDL_RenderPresent(render);
  

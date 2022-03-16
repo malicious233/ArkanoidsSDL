@@ -98,6 +98,8 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\player.cpp" />
     <ClCompile Include="src\projectile.cpp" />
+    <ClCompile Include="src\sprite.cpp" />
+    <ClCompile Include="src\spritesheet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\brick.h" />
@@ -108,6 +110,8 @@
     <ClInclude Include="src\leveleditor.h" />
     <ClInclude Include="src\player.h" />
     <ClInclude Include="src\projectile.h" />
+    <ClInclude Include="src\sprite.h" />
+    <ClInclude Include="src\spritesheet.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
