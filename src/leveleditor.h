@@ -11,5 +11,6 @@ static struct LevelEditor
 	std::string LoadLevelString(const std::string str);
 	Level LoadLevel(const std::string str);
 	static void GenerateLevel(const char* lvl, int rows, int cols);
+	static void GenerateLevel(Level level);
 
 };

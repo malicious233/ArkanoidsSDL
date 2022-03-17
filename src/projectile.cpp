@@ -33,11 +33,11 @@ void Projectile::update()
 	*/
 	if (!step(0.f, velY * delta_time))
 	{
-		velY = -velY + sign(-velY) * 5;
+		velY = -velY + sign(-velY) * 10;
 	}
 	if (!step(velX * delta_time, 0.f))
 	{
-		velX = -velX + sign(-velX) * 5;
+		velX = -velX + sign(-velX) * 10;
 	}
 	
 	//x += velX * delta_time;

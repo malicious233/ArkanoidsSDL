@@ -3,6 +3,7 @@
 struct Brick
 {
 	bool alive = true;
+	bool invincible = false;
 
 	int health = 3;
 

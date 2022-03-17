@@ -13,28 +13,12 @@
 #include "spritesheet.h"
 
 
-const char* LEVEL =
-"..............."
-"..............."
-"..............."
-".###..........."
-"..............."
-"....###........"
-"..............."
-".........###..."
-"........##....."
-".......##......"
-"......##......."
-".....##........"
-"..............."
-"###############"
-"..............."
-;
+
 
 //Text
-TTF_Font* font = TTF_OpenFont("res/roboto.ttf", 25);
-SDL_Surface* text_surf = TTF_RenderText_Solid(font, std::to_string(projectileCount).c_str(), { 255,255,255,255 });
-SDL_Texture* text_tex = SDL_CreateTextureFromSurface(render, text_surf);
+TTF_Font* font;
+SDL_Surface* text_surf;
+SDL_Texture* text_tex;
 
 void Update_ProjectileCountHUD()
 {
@@ -48,20 +32,26 @@ void Update_ProjectileCountHUD()
 
 int main()
 {
+	float animTime = 0;
+	
+	bool running = true;
+
 	LevelEditor level;
 
+	Uint64 previous_ticks = SDL_GetPerformanceCounter();
+
+	//Initialization
 	SDL_Init(SDL_INIT_EVERYTHING); 
 	TTF_Init();
 	IMG_Init(IMG_INIT_PNG);
 
+	
+
 	window = SDL_CreateWindow("Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800,600,0); 
 	render = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
  
-	
 
-	//TTF_Font* font = TTF_OpenFont("res/roboto.ttf", 25);
-	//SDL_Surface* text_surf = TTF_RenderText_Solid(font, std::to_string(projectileCount).c_str(), { 255,255,255,255 });
-	//SDL_Texture* text_tex = SDL_CreateTextureFromSurface(render, text_surf);
+	//Load sprites
 	Update_ProjectileCountHUD();
 
 	player_sprite.load("res/paddle.png");
@@ -69,23 +59,15 @@ int main()
 	Sprite_Sheet ballCountHUD;
 	ballCountHUD.load("res/ballcountHUDspritesheet.png", 75, 75);
 	
-	float animTime = 0;
 	
-	/*
-	//Call this when youre done with a texture
-	SDL_FreeSurface(text_surf);
-	SDL_DestroyTexture(text_tex);
-	*/
 	
 
-	bool running = true;
-	Uint64 previous_ticks = SDL_GetPerformanceCounter();
 
-
+	//Load and generate level
 	Level newLevel;
 	newLevel = level.LoadLevel("levels/leveleditor.txt");
 
-	LevelEditor::GenerateLevel(newLevel.levelString.c_str(), newLevel.columns, newLevel.rows);
+	LevelEditor::GenerateLevel(newLevel);
  
 	while (running)
 	{
@@ -96,8 +78,6 @@ int main()
 		previous_ticks = ticks; 
 		delta_time = (float)delta_ticks / SDL_GetPerformanceFrequency(); 
  
-		
-
 		SDL_Event event;
 		while(SDL_PollEvent(&event)) 
 		{

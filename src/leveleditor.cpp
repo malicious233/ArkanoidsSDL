@@ -20,7 +20,6 @@ void LevelEditor::GenerateLevel(const char* lvl, int rows, int cols)
 				continue;
 
 			Brick* brick = new Brick();
-			printf("brick");
 			float wdth = 800 / cols;
 			float hgth = 600 / rows;
 			
@@ -36,9 +35,35 @@ void LevelEditor::GenerateLevel(const char* lvl, int rows, int cols)
 	}
 }
 
+void LevelEditor::GenerateLevel(Level level)
+{
+	const char* ptr = level.levelString.c_str();
+	for (int y = 0; y < level.rows; y++)
+	{
+		for (int x = 0; x < level.columns; x++, ++ptr)
+		{
+			if (*ptr != '#')
+				continue;
+
+			Brick* brick = new Brick();
+			float wdth = 800 / level.columns;
+			float hgth = 600 / level.rows;
 
 
-//Saves an empty file
+			brick->alive = true;
+			brick->x = x * wdth;
+			brick->y = y * hgth;
+			brick->w = wdth;
+			brick->h = hgth;
+
+			bricks[y * level.columns + x] = brick;
+		}
+	}
+}
+
+
+
+//Saves an empty file 
 void LevelEditor::SaveLevel()
 {
 	std::string level;
@@ -56,11 +81,12 @@ void LevelEditor::SaveLevel()
 	myfile.close();
 }
 
+//Returns a Level struct with data for generating a level from a given file datapath
 Level LevelEditor::LoadLevel(std::string str)
 {
 	Level newLevel;
 
-	std::ifstream load(str, std::ifstream::in); //Open file for reading
+	std::ifstream load(str, std::ifstream::in); 
 
 	std::string newStr;
 	std::string tmpStr;
@@ -69,7 +95,7 @@ Level LevelEditor::LoadLevel(std::string str)
 	std::getline(load, tmpStr);
 	newLevel.columns = std::stoi(tmpStr);
 	std::cout << newLevel.columns << std::endl;
-
+	
 	std::getline(load, tmpStr);
 	newLevel.rows = std::stoi(tmpStr);
 	std::cout << newLevel.rows << std::endl;
@@ -86,7 +112,7 @@ Level LevelEditor::LoadLevel(std::string str)
 
 }
 
-//Returns the entire string from a given file directory
+//Returns the entire string from a given file directory. Outdated now, use LoadLevel instead 
 std::string LevelEditor::LoadLevelString(const std::string str)
 {
 	std::ifstream load(str, std::ifstream::in); //Open file for reading
