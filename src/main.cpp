@@ -31,6 +31,21 @@ const char* LEVEL =
 "..............."
 ;
 
+//Text
+TTF_Font* font = TTF_OpenFont("res/roboto.ttf", 25);
+SDL_Surface* text_surf = TTF_RenderText_Solid(font, std::to_string(projectileCount).c_str(), { 255,255,255,255 });
+SDL_Texture* text_tex = SDL_CreateTextureFromSurface(render, text_surf);
+
+void Update_ProjectileCountHUD()
+{
+	SDL_FreeSurface(text_surf);
+	SDL_DestroyTexture(text_tex); //This alleviates a memoryleak I think
+
+	font = TTF_OpenFont("res/roboto.ttf", 25);
+	text_surf = TTF_RenderText_Solid(font, std::to_string(projectileCount).c_str(), { 255,255,255,255 });
+	text_tex = SDL_CreateTextureFromSurface(render, text_surf);
+}
+
 int main()
 {
 	LevelEditor level;
@@ -42,26 +57,20 @@ int main()
 	window = SDL_CreateWindow("Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800,600,0); 
 	render = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
  
-	//Text
-	TTF_Font* font = TTF_OpenFont("res/roboto.ttf", 14);
-	SDL_Surface* text_surf = TTF_RenderText_Solid(font, "but did you know, in 15 to 20 years all helium on earth will have run out ? ", { 255,0,255,255 });
-	SDL_Texture* text_tex = SDL_CreateTextureFromSurface(render, text_surf);
+	
 
-	//A sprite
-	/*
-	int sprite_w, sprite_h;
-	SDL_Texture* sprite = IMG_LoadTexture(render, "res/sprite.png");
-	SDL_QueryTexture(sprite, NULL, NULL, &sprite_w, &sprite_h);
-	*/
+	//TTF_Font* font = TTF_OpenFont("res/roboto.ttf", 25);
+	//SDL_Surface* text_surf = TTF_RenderText_Solid(font, std::to_string(projectileCount).c_str(), { 255,255,255,255 });
+	//SDL_Texture* text_tex = SDL_CreateTextureFromSurface(render, text_surf);
+	Update_ProjectileCountHUD();
 
 	player_sprite.load("res/paddle.png");
 
-	Sprite_Sheet cowGif;
-	cowGif.load("res/stupididle.png", 32, 32);
+	Sprite_Sheet ballCountHUD;
+	ballCountHUD.load("res/ballcountHUDspritesheet.png", 75, 75);
 	
 	float animTime = 0;
 	
-
 	/*
 	//Call this when youre done with a texture
 	SDL_FreeSurface(text_surf);
@@ -72,16 +81,7 @@ int main()
 	bool running = true;
 	Uint64 previous_ticks = SDL_GetPerformanceCounter();
 
-	/*
-	for(int i=0; i<BRICK_MAX; ++i)
-	{
-		bricks[i].y = 120 * i;
-	}
-	*/
 
-	//level.SaveLevel();
-	//std::string lvlStr = level.LoadLevelString("levels/levelEditor.txt");
-	//std::cout << lvlStr << std::endl;
 	Level newLevel;
 	newLevel = level.LoadLevel("levels/leveleditor.txt");
 
@@ -141,6 +141,12 @@ int main()
 		player.update();
 		player.draw();
 
+		if (GetKeyPressed(SDL_SCANCODE_SPACE))
+		{
+			projectileCount--;
+			Update_ProjectileCountHUD();
+		}
+
 		for(int i=0; i<PROJECTILE_MAX; ++i)
 		{
 			projectiles[i].update();
@@ -154,16 +160,18 @@ int main()
 			
 		}
 
-		//Draw text
-		SDL_Rect text_dst = { 30, 30, text_surf->w, text_surf->h };
-		SDL_RenderCopy(render, text_tex, NULL, &text_dst);
+		
 
 		//SDL_Rect sprite_dst = { projectiles[0].x, projectiles[0].y, sprite_w, sprite_h };
 		//SDL_RenderCopy(render, sprite, NULL, &sprite_dst);
 
+		//Draw ballcount hud
 		animTime += delta_time;
+		ballCountHUD.draw((int)(animTime * 5 ) % 4, 35, 20);
 
-		cowGif.draw((int)(animTime * 5 ) % 4, 100, 100);
+		//Draw text
+		SDL_Rect text_dst = { 55, 45, text_surf->w, text_surf->h };
+		SDL_RenderCopy(render, text_tex, NULL, &text_dst);
 
 		SDL_RenderPresent(render);
  
