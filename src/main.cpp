@@ -65,7 +65,7 @@ int main()
 
 	//Load and generate level
 	Level newLevel;
-	newLevel = level.LoadLevel("levels/leveleditor.txt");
+	newLevel = level.LoadLevel("levels/level1.txt");
 
 	LevelEditor::GenerateLevel(newLevel);
  

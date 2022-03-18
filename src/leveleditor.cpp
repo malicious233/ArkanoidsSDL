@@ -42,13 +42,32 @@ void LevelEditor::GenerateLevel(Level level)
 	{
 		for (int x = 0; x < level.columns; x++, ++ptr)
 		{
-			if (*ptr != '#')
+			if (*ptr == '0')
 				continue;
+
 
 			Brick* brick = new Brick();
 			float wdth = 800 / level.columns;
 			float hgth = 600 / level.rows;
 
+			switch (*ptr)
+			{
+			case '1':
+				brick->health = 1;
+				break;
+			case '2':
+				brick->health = 2;
+				break;
+			case '3':
+				brick->health = 3;
+				break;
+			case '#':
+				brick->invincible = true;
+				break;
+
+
+
+			}
 
 			brick->alive = true;
 			brick->x = x * wdth;

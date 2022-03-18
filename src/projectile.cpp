@@ -69,6 +69,11 @@ bool Projectile::step(float dx, float dy)
 		if (aabb_circle_intersect(box, circle))
 		{
 			//b->alive = false; //I should do that the brick is dynamically deallocated instead of just made invisible and ignored by collision
+			if (b->invincible)
+			{
+				return false;
+			}
+
 			b->health--;
 			if (b->health <= 0)
 			{
