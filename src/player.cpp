@@ -13,7 +13,7 @@ void Player::update()
 
 	// shoot! pew pew
 	shoot_timer -= delta_time;
-	if (GetKeyPressed(SDL_SCANCODE_SPACE))
+	if (GetKeyPressed(SDL_SCANCODE_SPACE) && projectileCount > 0)
 	{
 		Projectile& proj = projectiles[next_projectile_index];
 		proj.alive = true;

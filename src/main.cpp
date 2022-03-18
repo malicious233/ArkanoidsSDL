@@ -121,7 +121,7 @@ int main()
 		player.update();
 		player.draw();
 
-		if (GetKeyPressed(SDL_SCANCODE_SPACE))
+		if (GetKeyPressed(SDL_SCANCODE_SPACE) && projectileCount > 0)
 		{
 			projectileCount--;
 			Update_ProjectileCountHUD();
