@@ -19,7 +19,7 @@ void LevelEditor::GenerateLevel(const char* lvl, int rows, int cols)
 			if (*ptr != '#')
 				continue;
 
-			Brick* brick = new Brick();
+			Brick* brick = new Brick(); // feedback: doesn't seem like memory allocated here is deleted anywhere
 			float wdth = 800 / cols;
 			float hgth = 600 / rows;
 			
@@ -46,7 +46,7 @@ void LevelEditor::GenerateLevel(Level level)
 				continue;
 
 
-			Brick* brick = new Brick();
+			Brick* brick = new Brick(); // feedback: doesn't seem like memory allocated here is deleted anywhere
 			float wdth = 800 / level.columns;
 			float hgth = 600 / level.rows;
 
