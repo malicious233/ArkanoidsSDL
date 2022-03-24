@@ -54,7 +54,7 @@ AABB AABB::make_from_position_size(float x, float y, float w, float h)
 	return box;
 }
 
-void draw_box(const AABB& box)
+void draw_box(const AABB& box) // feedback: feels like draw function doesn't really belong here, in the collisoin file
 {
 	SDL_Rect rect = {
 		box.x_min,

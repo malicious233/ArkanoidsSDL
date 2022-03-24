@@ -7,6 +7,8 @@ struct Circle
 	float radius;
 };
 
+// feedback: these global functions as well as similar ones below don't really fit into object-oriented approach needed for this assignemnt.
+// I'd suggest to place them in a class where they belong to, like CollisionManager or something like that.
 void draw_circle(const Circle& circle);
 bool circle_intersect(const Circle& a, const Circle& b);
 
